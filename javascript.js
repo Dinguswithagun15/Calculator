@@ -18,13 +18,13 @@ const operate = function(num1, num2, operator) {
     clearDisplay();
     switch (operator) {
         case "+":
-            return (add(num1, num2).toString());
+            return (add(num1, num2).toFixed(2));
         case "-":
-            return (subtract(num1, num2).toString());
+            return (subtract(num1, num2).toFixed(2));
         case "*":
-            return (multiply(num1, num2).toString());
+            return (multiply(num1, num2).toFixed(2));
         case "/":
-            return (divide(num1, num2).toString());
+            return (divide(num1, num2).toFixed(2));
     }
 }
 let screencontent = document.querySelector("#screencontent");
