@@ -16,6 +16,7 @@ const divide = function(num1, num2) {
 }
 const operate = function(num1, num2, operator) {
     clearDisplay();
+    if (num2 == 0 && operator == "/") {return "Don't do that."}
     switch (operator) {
         case "+":
             return (add(num1, num2).toFixed(2));
@@ -39,31 +40,38 @@ const addToDisplay = function(string) {
     console.log("num1: " + num1);
     console.log("num2: " + num2);
     console.log("operator: " + operator);
-    if (parseInt(string) || string == "0") {
-        if (num1 == null) {
-            num1 = parseInt(string);
-            screencontent.textContent = string;
-        } else if (num2 == null) {
-            if (operator == null) {
-                num1 = parseInt(num1.toString() + string);
-                screencontent.textContent += string;
+    if (screencontent.textContent == "Don't do that.") {clearDisplay();}
+    if (string == "Don't do that.") {clearDisplay(); screencontent.textContent = string;} else {
+        if (parseInt(string) || string == "0") {
+            if (num1 == null) {
+                num1 = parseInt(string);
+                screencontent.textContent = string;
+            } else if (num2 == null) {
+                if (operator == null) {
+                    num1 = parseInt(num1.toString() + string);
+                    screencontent.textContent += string;
+                } else {
+                    num2 = parseInt(string);
+                    screencontent.textContent += (" " + string);
+                }
             } else {
-                num2 = parseInt(string);
-                screencontent.textContent += (" " + string);
+                num2 = parseInt(num2.toString() + string);
+                screencontent.textContent += string;
             }
         } else {
-            num2 = parseInt(num2.toString() + string);
-            screencontent.textContent += string;
-        }
-    } else {
-        if (num1 != null) {
-            if (num2 == null) {
-                operator = string;
-                screencontent.textContent += (" " + string);
-            } else {
-                num1 = parseInt(operate(num1, num2, operator));
-                operator = string;
-                screencontent.textContent = num1 + " " + operator;
+            if (num1 != null) {
+                if (num2 == null) {
+                    operator = string;
+                    screencontent.textContent += (" " + string);
+                } else {
+                    if (isNaN(parseInt(operate(num1, num2, operator)))) {
+                        clearDisplay(); screencontent.textContent = "Don't do that.";
+                    } else {
+                        num1 = parseInt(operate(num1, num2, operator));
+                        operator = string;
+                        screencontent.textContent = num1 + " " + operator;
+                    }
+                }
             }
         }
     }
@@ -83,6 +91,7 @@ const btn7 = document.querySelector("#seven");
 const btn8 = document.querySelector("#eight");
 const btn9 = document.querySelector("#nine");
 const btn0 = document.querySelector("#zero");
+const btnclear = document.querySelector("#clear");
 const btneq = document.querySelector("#eq");
 const btnplus = document.querySelector("#plus");
 const btnsub = document.querySelector("#sub");
@@ -99,7 +108,8 @@ btn7.addEventListener("click", () => {addToDisplay("7");})
 btn8.addEventListener("click", () => {addToDisplay("8");})
 btn9.addEventListener("click", () => {addToDisplay("9");})
 btn0.addEventListener("click", () => {addToDisplay("0");})
-btneq.addEventListener("click", () => {addToDisplay(operate(num1, num2, operator));})
+btnclear.addEventListener("click", () => {clearDisplay();})
+btneq.addEventListener("click", () => {if (num1 != null && num2 != null && operator != null) {addToDisplay(operate(num1, num2, operator));}})
 btnplus.addEventListener("click", () => {addToDisplay("+");})
 btnsub.addEventListener("click", () => {addToDisplay("-");})
 btnmult.addEventListener("click", () => {addToDisplay("*");})
